@@ -18,9 +18,9 @@
 			</table>
 			<input type="submit" value="Login" />
 		</form>
-<%--		<form action="register" method="get">--%>
-<%--			<input type="submit" value="New User?" />--%>
-<%--		</form>--%>
+		<form action="register" method="get">
+			<input type="submit" value="New User?" />
+		</form>
 	</center>
 </body>
 </html>
