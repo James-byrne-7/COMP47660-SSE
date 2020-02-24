@@ -1,5 +1,6 @@
 package com.springfield.springboot.controller;
 
+import com.springfield.springboot.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,7 +16,7 @@ import com.springfield.springboot.service.LoginService;
 public class LoginController {
 
     @Autowired
-    LoginService service;
+    StudentRepository studentRepository;
 
     @RequestMapping(value={"/","/login"}, method=RequestMethod.GET)
     public String showLoginPage(ModelMap model){
@@ -25,17 +26,13 @@ public class LoginController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String password){
 
-        boolean isValidUser = service.validateUser(username, password);
-
-        if (!isValidUser) {
-            model.put("loginMessage", "Invalid Credentials");
+        String StudentPassword = studentRepository.lookupStudentPassword(username);
+        if (password.equals(StudentPassword)) {
+            model.addAttribute("username", username);
+            return "homepage";
+        } else {
             return "login";
         }
-
-        model.put("name", username);
-        model.put("password", password);
-
-        return "welcome";
     }
 
 }
