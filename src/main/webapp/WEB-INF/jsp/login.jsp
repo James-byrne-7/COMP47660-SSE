@@ -1,26 +1,19 @@
 <html>
 	<head>
+		<link rel="stylesheet" href="portal.css">
 		<title>Login: Student Management System</title>
 	</head>
 <body>
-	<center>
-		<h1>Login Page</h1>
+
+	<div class="main" align="center">
+		<p class="title">Sign in</p>
 		<form action="login" method="post">
-			<table>
-				<tr>
-					<td>UserName</td>
-					<td><input type="text" name="username" /></td>
-				</tr>
-				<tr>
-					<td>Password</td>
-					<td><input type="password" name="password" /></td>
-				</tr>
-			</table>
-			<input type="submit" value="Login" />
+			<input class="field" name="username" type="text" placeholder="Username">
+			<input class="field" name="password" type="password" placeholder="Password">
+			<input class="submit" type="submit" value="Sign in">
+			<p><a href="/register" class="register">Register New Student</a></p>
 		</form>
-		<form action="register" method="get">
-			<input type="submit" value="New User?" />
-		</form>
-	</center>
+	</div>
 </body>
+
 </html>
