@@ -15,7 +15,12 @@ public class RegisterController {
     RegisterService service;
 
     @RequestMapping(value="/register", method = RequestMethod.GET)
-    public String showRegisterPage(ModelMap model){
+    public String showRegisterPage(@RequestParam(value = "error", required = false) String error, ModelMap model){
+        String loginMessage = null;
+        if(error != null) {
+            loginMessage = "Details are invalid, please try again";
+        }
+        model.addAttribute("loginMessage", loginMessage);
         return "register";
     }
 
@@ -24,14 +29,13 @@ public class RegisterController {
             @RequestParam String name, @RequestParam String password, @RequestParam String surname, @RequestParam String student_id,
             @RequestParam String address, @RequestParam String phone_number, @RequestParam String email_address){
 
-        boolean areValidDetails = service.validateDetails(name, password, surname, student_id, address, phone_number, email_address);
-
-        if (areValidDetails) {
-            model.put("loginMessage", "User Created");
-            return "login";
+        //boolean areValidDetails = service.validateDetails(name, password, surname, student_id, address, phone_number, email_address);
+        // Validate details
+        if (!true) {
+            return "redirect:login?registered=true";
         }
 
-        return "welcome";
+        return "redirect:register?error=true";
     }
 
 }

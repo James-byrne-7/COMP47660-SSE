@@ -20,15 +20,19 @@ public class LoginController {
 
     @RequestMapping(value={"/","/login"}, method=RequestMethod.GET)
     public String showLoginPage(@RequestParam(value = "error", required = false) String error,
+                                @RequestParam(value = "registered", required = false) String registered,
                                 @RequestParam(value = "logout", required = false) String logout, ModelMap model){
-        String errorMessage = null;
+        String loginMessage = null;
         if(error != null) {
-            errorMessage = "Username or Password is incorrect !!";
+            loginMessage = "Username or Password is incorrect !!";
+        }
+        if(error != null) {
+            loginMessage = "You've been successfully registered !!";
         }
         if(logout != null) {
-            errorMessage = "You have been successfully logged out !!";
+            loginMessage = "You have been successfully logged out !!";
         }
-        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("loginMessage", loginMessage);
         return "login";
     }
 
@@ -39,13 +43,13 @@ public class LoginController {
         if (password.equals(studentPassword)) {
             model.addAttribute("username", username);
             model.addAttribute("privelegeLevel", "student");
-            return "homepage";
+            return "home";
         }
         String staffPassword = staffRepository.lookupStaffPassword(username);
         if (password.equals(staffPassword)) {
             model.addAttribute("username", username);
             model.addAttribute("privilegeLevel", "staff");
-            return "homepage";
+            return "home";
         } else {
             return "redirect:/login?error=true";
         }

@@ -7,6 +7,7 @@
 
 <div class="main" align="center">
     <p class="title">Register Student</p>
+    <c:if test="${not empty errorMessage}"><div style="color:red; font-weight: bold; margin: 0;">${errorMessage}</div></c:if>
     <form action="register" method="post">
         <input class="field" type="text" placeholder="Name" name="name" />
         <input class="field" type="text" placeholder="Password" name="password" />
