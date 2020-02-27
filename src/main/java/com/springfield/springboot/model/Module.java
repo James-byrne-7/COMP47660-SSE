@@ -1,0 +1,52 @@
+package com.springfield.springboot.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import javax.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "modules")
+public class Module {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @NotBlank private String name;
+    @NotBlank private String topics;
+    @NotBlank private String coordinator;
+
+    public Module(){}
+    public Module(Long id, String name, String topics, String coordinator){
+        this.id = id;
+        this.name = name;
+        this.topics = topics;
+        this.coordinator = coordinator;
+    }
+
+    // Getters & Setters
+    public Long getId() {
+        return id;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getTopics() {
+        return topics;
+    }
+    public String getCoordinator() {
+        return coordinator;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setTopics(String topics) {
+        this.topics = topics;
+    }
+    public void setCoordinator(String coordinator) { this.coordinator = coordinator; }
+}

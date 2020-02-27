@@ -10,7 +10,7 @@
     </div>
     <ul>
         <li><a href="">Home</a></li>
-        <li><a href="">Modules</a></li>
+        <li><a href="/registration">Registration</a></li>
         <li><a href="">Fees</a></li>
         <li><a href="">Contact us</a></li>
         <li><a href="">Logout</a></li>
@@ -31,7 +31,7 @@
             Welcome to Springfields Student Management System.
         </p>
         <p>
-            You are now able to view School population statistic on our home page. If you would like to change your enrolment or add aditional moduled please select 'modules'. PLEASE NOTE: To enrol in new modules, you must not have any outstanding fees on your account. To view you outstanding fees please select 'fees'.
+            You are now able to view School population statistic on our home page. If you would like to change your enrolment or add aditional modulee please select 'Registration'. PLEASE NOTE: To enrol in new modules, you must not have any outstanding fees on your account. To view you outstanding fees please select 'fees'.
         </p>
         <br/>
         <p>
