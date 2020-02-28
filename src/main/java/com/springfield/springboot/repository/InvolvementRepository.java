@@ -15,6 +15,16 @@ public interface InvolvementRepository extends JpaRepository<Involvement, Involv
     @Query("select i.module_id from Involvement i where i.user_id = ?1")
     List<Long> findModuleByUserId(Long user_id) throws UserNotFoundException;
 
+    @Query("select count(u)  " +
+            "from Involvement i, User as u " +
+            "WHERE i.module_id = ?1 " +
+            "AND i.user_id = u.id " +
+            "AND u.sex = ?2")
+    public Long countUsersInvolvedBySex(Long moduleID, char sex);
+
+//    @Query("SELECT COUNT(m) FROM User AS m where m.sex = 'M'")
+//    public Long countMalesInvolved();
+
 }
 
 

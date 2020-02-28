@@ -35,7 +35,7 @@
                     <td><c:out value="${module.topics}" /></td>
                     <td><c:out value="${module.coordinator}" /></td>
                     <td>
-                        <a href="/statistic/${module.id}"/>View Statistics</a>
+                        <a href="/statistics/${module.id}"/>View Statistics</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="/drop/${module.id}"  />Drop Module</a>
                     </td>

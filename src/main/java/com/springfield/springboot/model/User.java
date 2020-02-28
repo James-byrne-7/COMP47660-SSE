@@ -13,12 +13,12 @@ public class User {
     private Long id;
     @NotBlank private String username;
     @NotBlank private String password;
-    @NotBlank private String sex;
+    @NotBlank private char sex;
     @NotBlank private String role = "Student"; // Default
     private long fees = 0;
 
     public User(){}
-    public User(Long id, String username, String password, String sex, String role, long fees){
+    public User(Long id, String username, String password, char sex, String role, long fees){
         this.id = id;
         this.username = username;
         this.password = password;
@@ -37,7 +37,7 @@ public class User {
     public String getPassword() {
         return password;
     }
-    public String getSex() { return sex; }
+    public char getSex() { return sex; }
     public String getRole() { return role; }
     public long getFees() { return fees; }
 
@@ -48,7 +48,7 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    public void setSex(String sex) { this.sex = sex; }
+    public void setSex(char sex) { this.sex = sex; }
     public void setRole(String role) { this.role = role; }
     public void setFees(long fees) { this.fees = fees; }
 
