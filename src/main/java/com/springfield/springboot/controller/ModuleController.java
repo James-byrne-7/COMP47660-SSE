@@ -7,10 +7,13 @@ import com.springfield.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,13 +21,23 @@ import java.util.List;
 public class ModuleController {
 
     @Autowired
-    ModuleRepository moduleRepository;
-    @Autowired
     UserRepository userRepository;
 
-    @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public String viewModulePage(Model model) {
-        return "modules";
+    @GetMapping("/registration")
+    public String viewRegistrationPage(Model model, HttpSession session) {
+        @SuppressWarnings("unchecked")
+        long userID = (long) session.getAttribute("CURRENT_USER");
+        try {
+            User user = userRepository.findById(userID).get();
+
+            List<Module> listModules = new ArrayList<>(user.getModules());
+            model.addAttribute("listModules", listModules);
+
+            return "modules";
+         } catch (Exception e) {
+            return "redirect:login?error=true";
+        }
+
     }
 
 
