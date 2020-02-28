@@ -13,7 +13,7 @@ public class User {
     private Long id;
     @NotBlank private String username;
     @NotBlank private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<Module> modules;
 
     public User(){}

@@ -13,7 +13,7 @@
         <li><a href="/registration">Registration</a></li>
         <li><a href="">Fees</a></li>
         <li><a href="">Contact us</a></li>
-        <li><a href="">Logout</a></li>
+        <li><a href="/logout">Logout</a></li>
     </ul>
     <div id="pageContent">
         <p class="title">Welcome</p>

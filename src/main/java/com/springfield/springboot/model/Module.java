@@ -14,7 +14,7 @@ public class Module {
     @NotBlank private String name;
     @NotBlank private String topics;
     @NotBlank private String coordinator;
-    @ManyToMany(mappedBy = "modules")
+    @ManyToMany(mappedBy = "modules", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<User> users;
 
     public Module(){}

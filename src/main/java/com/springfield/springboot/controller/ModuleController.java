@@ -1,7 +1,9 @@
 package com.springfield.springboot.controller;
 
+import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.ModuleRepository;
 import com.springfield.springboot.model.Module;
+import com.springfield.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +19,11 @@ public class ModuleController {
 
     @Autowired
     ModuleRepository moduleRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public String viewModulePage(Model model) {
-        List<Module> listModules = moduleRepository.findAll();
-        model.addAttribute("listModules", listModules);
         return "modules";
     }
 

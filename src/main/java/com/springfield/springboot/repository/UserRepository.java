@@ -7,9 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("select s.password from User s where s.username = ?1")
-    String lookupStudentPassword(String username);
-
     @Query("select u.id from User u where u.username = ?1")
-    long findStudentIDByUsername(String username);
+    String findStudentIDByUsername(String username);
 }

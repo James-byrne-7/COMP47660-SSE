@@ -12,10 +12,10 @@
     </div>
     <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="index.html">Registration</a></li>
+        <li><a href="modules">Registration</a></li>
         <li><a href="index.html">Fees</a></li>
         <li><a href="index.html">Contact us</a></li>
-        <li><a href="index.html">Logout</a></li>
+        <li><a href="logout">Logout</a></li>
     </ul>
     <div id="pageContent">
         <p class="title">Currently Enrolled Modules</p>

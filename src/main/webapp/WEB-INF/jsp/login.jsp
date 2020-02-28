@@ -9,7 +9,7 @@
 	<body onload='document.login.username.focus();'>
 		<div class="main" align="center">
 			<p class="title">Sign in</p>
-			<c:if test="${not empty errorMessage}"><div style="color:red; font-weight: bold; margin: 0;">${errorMessage}</div></c:if>
+			<c:if test="${not empty loginMessage}"><div style="color:red; font-weight: bold; margin: 0;">${loginMessage}</div></c:if>
 			<form name ="login" action="login" method="post">
 				<input class="field" name="username" type="text" placeholder="Username">
 				<input class="field" name="password" type="password" placeholder="Password">
