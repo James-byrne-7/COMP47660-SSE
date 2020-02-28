@@ -35,9 +35,9 @@
                     <td><c:out value="${module.topics}" /></td>
                     <td><c:out value="${module.coordinator}" /></td>
                     <td>
-                        <a href="/books/${module.id}"/>Drop Module</a>
+                        <a href="/books/${module.id}"/>View Statistics</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="/delete/${module.id}"  />Delete</a>
+                        <a href="/delete/${module.id}"  />Drop Module</a>
                     </td>
                 </tr>
             </c:forEach>

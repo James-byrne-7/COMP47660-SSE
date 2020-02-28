@@ -1,5 +1,6 @@
 package com.springfield.springboot.controller;
 
+import com.springfield.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,15 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.springfield.springboot.repository.StaffRepository;
-import com.springfield.springboot.repository.StudentRepository;
+//import com.springfield.springboot.repository.StaffRepository;
+import com.springfield.springboot.repository.UserRepository;
 
 @Controller
 @SessionAttributes("name")
 public class LoginController {
 
-    @Autowired StudentRepository studentRepository;
-    @Autowired StaffRepository staffRepository;
+    @Autowired
+    UserRepository userRepository;
+//    @Autowired StaffRepository staffRepository;
 
     @RequestMapping(value={"/","/login"}, method=RequestMethod.GET)
     public String showLoginPage(@RequestParam(value = "error", required = false) String error,
@@ -38,18 +40,18 @@ public class LoginController {
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String password){
-
-        String studentPassword = studentRepository.lookupStudentPassword(username);
+//        long userID = userRepository.findStudentIDByUsername(username);
+        String studentPassword = userRepository.lookupStudentPassword(username);
         if (password.equals(studentPassword)) {
             model.addAttribute("username", username);
             model.addAttribute("privelegeLevel", "student");
             return "home";
-        }
-        String staffPassword = staffRepository.lookupStaffPassword(username);
-        if (password.equals(staffPassword)) {
-            model.addAttribute("username", username);
-            model.addAttribute("privilegeLevel", "staff");
-            return "home";
+//        }
+//        String staffPassword = staffRepository.lookupStaffPassword(username);
+//        if (password.equals(staffPassword)) {
+//            model.addAttribute("username", username);
+//            model.addAttribute("privilegeLevel", "staff");
+//            return "home";
         } else {
             return "redirect:/login?error=true";
         }

@@ -1,11 +1,9 @@
 package com.springfield.springboot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @Table(name = "modules")
@@ -16,6 +14,8 @@ public class Module {
     @NotBlank private String name;
     @NotBlank private String topics;
     @NotBlank private String coordinator;
+    @ManyToMany(mappedBy = "modules")
+    private Set<User> users;
 
     public Module(){}
     public Module(Long id, String name, String topics, String coordinator){
@@ -38,6 +38,7 @@ public class Module {
     public String getCoordinator() {
         return coordinator;
     }
+    public Set<User> getUsers() { return users; }
 
     public void setId(Long id) {
         this.id = id;
@@ -49,4 +50,5 @@ public class Module {
         this.topics = topics;
     }
     public void setCoordinator(String coordinator) { this.coordinator = coordinator; }
+    public void setUsers(Set<User> users) { this.users = users; }
 }
