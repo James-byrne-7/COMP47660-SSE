@@ -46,15 +46,15 @@ public class ModuleController {
         return "modules";
     }
 
-    @RequestMapping("/statistics/{moduleID}")
-    public String viewStatistics(@PathVariable(value = "moduleID") long moduleID, Model model) {
+//    @RequestMapping("/statistics/{moduleID}")
+//    public String viewStatistics(@PathVariable(value = "moduleID") long moduleID, Model model) {
 //        JSONObject data = new JSONObject();
 //        data.put("female",staffRepository.countFemaleStaff() );
 //        data.put("male", staffRepository.countMaleStaff() );
 //        model.addAttribute("data", data);
 //        model.addAttribute("username", username);
-        return "viewschoolstatistics";
-    }
+//        return "viewschoolstatistics";
+//    }
 
 
 

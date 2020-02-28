@@ -14,13 +14,15 @@ public class Module {
     @NotBlank private String name;
     @NotBlank private String topics;
     @NotBlank private String coordinator;
+    @NotBlank private String isFinished = "N";
 
     public Module(){}
-    public Module(Long id, String name, String topics, String coordinator){
+    public Module(Long id, String name, String topics, String coordinator, String isFinished){
         this.id = id;
         this.name = name;
         this.topics = topics;
         this.coordinator = coordinator;
+        this.isFinished = isFinished;
     }
 
     // Getters & Setters
@@ -36,6 +38,7 @@ public class Module {
     public String getCoordinator() {
         return coordinator;
     }
+    public String getIsFinished() { return isFinished; }
 
     public void setId(Long id) {
         this.id = id;
@@ -47,4 +50,5 @@ public class Module {
         this.topics = topics;
     }
     public void setCoordinator(String coordinator) { this.coordinator = coordinator; }
+    public void setIsFinished(String isFinished) { this.isFinished = isFinished; }
 }
