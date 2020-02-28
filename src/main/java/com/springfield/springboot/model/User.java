@@ -13,8 +13,6 @@ public class User {
     private Long id;
     @NotBlank private String username;
     @NotBlank private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Set<Module> modules;
 
     public User(){}
     public User(Long id, String username, String password){
@@ -33,7 +31,6 @@ public class User {
     public String getPassword() {
         return password;
     }
-    public Set<Module> getModules() { return modules; }
 
     public void setId(Long id) { this.id = id; }
     public void setPassword(String password) {
@@ -42,6 +39,5 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    public void setModules(Set<Module> modules) { this.modules = modules; }
 
 }
