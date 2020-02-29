@@ -13,15 +13,19 @@ public class User {
     private Long id;
     @NotBlank private String username;
     @NotBlank private String password;
+    private String firstname;
+    private String lastname;
     @NotBlank private char sex;
     @NotBlank private String role = "Student"; // Default
     private long fees = 0;
 
     public User(){}
-    public User(Long id, String username, String password, char sex, String role, long fees){
+    public User(Long id, String username, String password, String firstname, String lastname, char sex, String role, long fees){
         this.id = id;
         this.username = username;
         this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.sex = sex;
         this.role = role;
         this.fees = fees;
@@ -37,6 +41,8 @@ public class User {
     public String getPassword() {
         return password;
     }
+    public String getFirstname() { return firstname; }
+    public String getLastname() { return lastname; }
     public char getSex() { return sex; }
     public String getRole() { return role; }
     public long getFees() { return fees; }
@@ -49,6 +55,8 @@ public class User {
         this.username = username;
     }
     public void setSex(char sex) { this.sex = sex; }
+    public void setFirstname(String firstname) { this.firstname = firstname; }
+    public void setLastname(String lastname) {this.lastname = lastname; }
     public void setRole(String role) { this.role = role; }
     public void setFees(long fees) { this.fees = fees; }
 

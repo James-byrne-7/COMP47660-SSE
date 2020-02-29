@@ -19,9 +19,9 @@ public class InvolvementID implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InvolvementID authorshipId = (InvolvementID) o;
-        return user_id.equals(authorshipId.user_id) &&
-                module_id.equals(authorshipId.module_id);
+        InvolvementID involvementID = (InvolvementID) o;
+        return user_id.equals(involvementID.user_id) &&
+                module_id.equals(involvementID.module_id);
     }
 
     @Override

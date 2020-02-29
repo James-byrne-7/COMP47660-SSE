@@ -13,15 +13,15 @@ public class Module {
     private Long id;
     @NotBlank private String name;
     @NotBlank private String topics;
-    @NotBlank private String coordinator;
+    @NotBlank private long coordinator_id;
     @NotBlank private char isFinished = 'N';
 
     public Module(){}
-    public Module(Long id, String name, String topics, String coordinator, char isFinished){
+    public Module(Long id, String name, String topics, long coordinator_id, char isFinished){
         this.id = id;
         this.name = name;
         this.topics = topics;
-        this.coordinator = coordinator;
+        this.coordinator_id = coordinator_id;
         this.isFinished = isFinished;
     }
 
@@ -35,8 +35,8 @@ public class Module {
     public String getTopics() {
         return topics;
     }
-    public String getCoordinator() {
-        return coordinator;
+    public long getCoordinatorID() {
+        return coordinator_id;
     }
     public char getIsFinished() { return isFinished; }
 
@@ -49,6 +49,6 @@ public class Module {
     public void setTopics(String topics) {
         this.topics = topics;
     }
-    public void setCoordinator(String coordinator) { this.coordinator = coordinator; }
+    public void setCoordinatorID(long coordinator) { this.coordinator_id = coordinator; }
     public void setIsFinished(char isFinished) { this.isFinished = isFinished; }
 }

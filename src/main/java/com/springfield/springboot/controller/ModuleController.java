@@ -2,6 +2,8 @@ package com.springfield.springboot.controller;
 
 import com.springfield.springboot.exception.ModuleNotFoundException;
 import com.springfield.springboot.exception.UserNotFoundException;
+import com.springfield.springboot.model.Involvement;
+import com.springfield.springboot.model.InvolvementID;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.InvolvementRepository;
 import com.springfield.springboot.repository.ModuleRepository;
@@ -54,6 +56,15 @@ public class ModuleController {
         model.addAttribute("data", data);
 
         return "modulestatistics";
+    }
+
+    @RequestMapping("/drop/{moduleID}")
+    public String dropModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
+        long userID = (long) session.getAttribute("CURRENT_USER");
+        Involvement involvement = involvementRepository.findById(new InvolvementID(userID, moduleID))
+                .orElseThrow(() -> new ModuleNotFoundException(moduleID));
+        involvementRepository.delete(involvement);
+        return "redirect:/modules";
     }
 
 

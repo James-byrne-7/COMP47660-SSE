@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.springfield.springboot.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class LoginController {
     @Autowired
     ModuleRepository moduleRepository;
 
-    @RequestMapping(value={"/","/login"}, method=RequestMethod.GET)
+    @RequestMapping(value="/login", method=RequestMethod.GET)
     public String showLoginPage(@RequestParam(value = "error", required = false) String error,
                                 @RequestParam(value = "registered", required = false) String registered,
                                 @RequestParam(value = "registered", required = false) String invalid,
@@ -45,6 +46,14 @@ public class LoginController {
         }
         model.addAttribute("loginMessage", loginMessage);
         return "login";
+    }
+    @RequestMapping(value="/")
+    public String showHomepage(HttpSession session) {
+        Object userID = session.getAttribute("CURRENT_USER");
+        if (userID == null)
+            return "redirect:login";
+        else
+            return "home";
     }
 
     @PostMapping("/login")
