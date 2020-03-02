@@ -18,9 +18,10 @@ public class User {
     @NotBlank private char sex;
     @NotBlank private String role = "Student"; // Default
     private long fees = 0;
+    private String nationality;
 
     public User(){}
-    public User(Long id, String username, String password, String firstname, String lastname, char sex, String role, long fees){
+    public User(Long id, String username, String password, String firstname, String lastname, char sex, String role, long fees, String nationality){
         this.id = id;
         this.username = username;
         this.password = password;
@@ -29,6 +30,7 @@ public class User {
         this.sex = sex;
         this.role = role;
         this.fees = fees;
+        this.nationality = nationality;
     }
 
     // Getters & Setters
@@ -46,6 +48,7 @@ public class User {
     public char getSex() { return sex; }
     public String getRole() { return role; }
     public long getFees() { return fees; }
+    public String getNationality() { return nationality; }
 
     public void setId(Long id) { this.id = id; }
     public void setPassword(String password) {
@@ -59,5 +62,6 @@ public class User {
     public void setLastname(String lastname) {this.lastname = lastname; }
     public void setRole(String role) { this.role = role; }
     public void setFees(long fees) { this.fees = fees; }
+    public void setNationality(String nationality) { this.nationality = nationality; }
 
 }

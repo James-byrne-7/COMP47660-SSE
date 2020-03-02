@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="true" %>
 <%--<!DOCTYPE html>--%>
 <%--<meta charset="utf-8"><html>--%>
 <head>
@@ -11,16 +12,17 @@
 <div id="page">
     <div id="header">
         <p class='title'>Springfield Student Management System</p>
+        <p class="current_user">You are currently logged in as : <c:out value="${sessionScope.username}"/></p>
     </div>
     <ul>
-        <li><a href="/module">Home</a></li>
-        <li><a href="/modules">Registration</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/modules">Modules</a></li>
         <li><a href="index.html">Fees</a></li>
         <li><a href="index.html">Contact us</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
     <div id="pageContent">
-        <p class="title">Statistics for Module (ID: ${moduleID})</p>
+        <p class="title">Statistics for Module (ID: ${moduleID} Name: ${moduleName})</p>
         <br/>
         <div id="my_dataviz"></div>
         <!-- Load d3.js -->

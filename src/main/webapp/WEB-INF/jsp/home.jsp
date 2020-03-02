@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="true" %>
 <html>
 <head>
     <title>Springfield Student Management System</title>
@@ -7,10 +11,11 @@
 <div id="page">
     <div id="header">
         <p class='title'>Springfield Student Management System</p>
+        <p class="current_user">You are currently logged in as : <c:out value="${sessionScope.username}"/></p>
     </div>
     <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="/modules">Registration</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/modules">Modules</a></li>
         <li><a href="">Fees</a></li>
         <li><a href="">Contact us</a></li>
         <li><a href="/logout">Logout</a></li>
@@ -34,13 +39,146 @@
             You are now able to view School population statistic on our home page. If you would like to change your enrolment or add aditional modulee please select 'Registration'. PLEASE NOTE: To enrol in new modules, you must not have any outstanding fees on your account. To view you outstanding fees please select 'fees'.
         </p>
         <br/>
-        <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer mi. Vivamus sit amet neque vitae sapien bibendum sodales. Curabitur elementum. Duis imperdiet. Donec eleifend porttitor sapien. Praesent leo. Quisque auctor velit sed tellus. Suspendisse potenti. Aenean laoreet imperdiet nunc. Donec commodo suscipit dolor. Aenean nibh. Sed id odio. Aliquam lobortis risus ut felis. Sed vehicula pellentesque quam.
-        </p>
+        <p class="title">Statistics for School Population</p>
         <br/>
-        <p>
-            Vestibulum augue quam, interdum id, congue semper, convallis non, velit. Quisque augue tortor, tristique ac, scelerisque eget, aliquam id, sem. Aenean lorem. Fusce velit nibh, dapibus quis, laoreet nec, porta a, dui. Nullam ac urna. Proin eget elit. Nunc scelerisque venenatis urna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce congue, turpis ut commodo mattis, pede erat fringilla tellus, pulvinar suscipit odio lorem sed pede.
-        </p>
+        <div id="sex_dataviz"></div>
+        <div id="nationality_dataviz"></div>
+        <!-- Load d3.js -->
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script>
+            d3.select('h2').attr('align',"center");
+            d3.select('h3').style('color', 'darkblue');
+            d3.select('h3').style('font-size', '24px');
+            d3.select('h3').attr('align',"center");
+            d3.select("#sex_dataviz").attr("align","center");
+
+            // set the dimensions and margins of the graph
+            var width = 450
+            height = 450
+            margin = 40
+
+            // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+            var radius = Math.min(width, height) / 2 - margin
+
+            // append the svg object to the div called 'sex_dataviz'
+            var svg = d3.select("#sex_dataviz")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            <!-- Create a div where the graph will take place -->
+            // set the color scale
+            var color = d3.scaleOrdinal()
+                .domain(${sexData})
+                .range(["#FF69B4", "#1E90FF"])
+
+
+            // Compute the position of each group on the pie:
+            var pie = d3.pie()
+                .value(function(d) {return d.value; })
+            var data_ready = pie(d3.entries(${sexData}))
+
+            // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+            svg
+                .selectAll('whatever')
+                .data(data_ready)
+                .enter()
+                .append('path')
+                .attr('d', d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(radius)
+                )
+                .attr('fill', function(d){ return(color(d.data.key)) })
+                .attr("stroke", "black")
+                .style("stroke-width", "2px")
+                .style("opacity", 0.7)
+
+            // shape helper to build arcs:
+            var arcGenerator = d3.arc()
+                .innerRadius(0)
+                .outerRadius(radius)
+
+            // Now add the annotation. Use the centroid method to get the best coordinates
+            svg
+                .selectAll('mySlices')
+                .data(data_ready)
+                .enter()
+                .append('text')
+                .text(function(d){  return d.data.key+ ": "+d.data.value})
+                .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+                .style("text-anchor", "middle")
+                .style("font-size", 17)
+
+        </script>
+        <script>
+            d3.select('h2').attr('align',"center");
+            d3.select('h3').style('color', 'darkblue');
+            d3.select('h3').style('font-size', '24px');
+            d3.select('h3').attr('align',"center");
+            d3.select("#nationality_dataviz").attr("align","center");
+
+            // set the dimensions and margins of the graph
+            var width = 450
+            height = 450
+            margin = 40
+
+            // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+            var radius = Math.min(width, height) / 2 - margin
+
+            // append the svg object to the div called 'sex_dataviz'
+            var svg = d3.select("#nationality_dataviz")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            <!-- Create a div where the graph will take place -->
+            // set the color scale
+            var color = d3.scaleOrdinal()
+                .domain(${nationalityData})
+                .range(["#800080", "#ff00ff", "#000080", "#ffff00", "#800000", "#ff0000", "#ffffff", "#00ffffff"])
+
+
+            // Compute the position of each group on the pie:
+            var pie = d3.pie()
+                .value(function(d) {return d.value; })
+            var data_ready = pie(d3.entries(${nationalityData}))
+
+            // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+            svg
+                .selectAll('whatever')
+                .data(data_ready)
+                .enter()
+                .append('path')
+                .attr('d', d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(radius)
+                )
+                .attr('fill', function(d){ return(color(d.data.key)) })
+                .attr("stroke", "black")
+                .style("stroke-width", "2px")
+                .style("opacity", 0.7)
+
+            // shape helper to build arcs:
+            var arcGenerator = d3.arc()
+                .innerRadius(0)
+                .outerRadius(radius)
+
+            // Now add the annotation. Use the centroid method to get the best coordinates
+            svg
+                .selectAll('mySlices')
+                .data(data_ready)
+                .enter()
+                .append('text')
+                .text(function(d){  return d.data.key+ ": "+d.data.value})
+                .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+                .style("text-anchor", "middle")
+                .style("font-size", 17)
+
+        </script>
     </div>
 </div>
 </body>

@@ -4,6 +4,7 @@ import com.springfield.springboot.exception.UserNotFoundException;
 import com.springfield.springboot.model.Module;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.ModuleRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,11 +27,15 @@ public class LoginController {
     @Autowired
     ModuleRepository moduleRepository;
 
-    @RequestMapping(value="/login", method=RequestMethod.GET)
+    @RequestMapping(value={"/","/login"}, method=RequestMethod.GET)
     public String showLoginPage(@RequestParam(value = "error", required = false) String error,
                                 @RequestParam(value = "registered", required = false) String registered,
                                 @RequestParam(value = "registered", required = false) String invalid,
-                                @RequestParam(value = "logout", required = false) String logout, ModelMap model){
+                                @RequestParam(value = "logout", required = false) String logout, ModelMap model,
+                                HttpSession session){
+        Object userID = session.getAttribute("CURRENT_USER");
+        if (userID != null)
+            return "redirect:/home";
         String loginMessage = null;
         if(invalid != null) {
             loginMessage = "Username or Password is incorrect !!";
@@ -47,14 +52,6 @@ public class LoginController {
         model.addAttribute("loginMessage", loginMessage);
         return "login";
     }
-    @RequestMapping(value="/")
-    public String showHomepage(HttpSession session) {
-        Object userID = session.getAttribute("CURRENT_USER");
-        if (userID == null)
-            return "redirect:login";
-        else
-            return "home";
-    }
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
@@ -64,7 +61,8 @@ public class LoginController {
             User user = userRepository.findById(userID).get();
             if (user.getPassword().equals(password)) {
                 request.getSession().setAttribute("CURRENT_USER", userID);
-                return "home";
+                request.getSession().setAttribute("username", user.getUsername());
+                return "redirect:/home";
             } else {
                 return "redirect:/login?invalid=true";
             }
@@ -78,5 +76,7 @@ public class LoginController {
         request.getSession().invalidate();
         return "redirect:login?logout=true";
     }
+
+
 
 }

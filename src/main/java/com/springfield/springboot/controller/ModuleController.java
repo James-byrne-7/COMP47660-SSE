@@ -28,7 +28,7 @@ public class ModuleController {
     @Autowired InvolvementRepository involvementRepository;
 
     @GetMapping("/modules")
-    public String viewRegistrationPage(Model model, HttpSession session)
+    public String viewUserModules(Model model, HttpSession session)
             throws UserNotFoundException, ModuleNotFoundException {
         @SuppressWarnings("unchecked")
         long userID = (long) session.getAttribute("CURRENT_USER");
@@ -43,13 +43,23 @@ public class ModuleController {
                     .orElseThrow(() -> new ModuleNotFoundException(module_id));
             listModules.add(module);
         }
-
-        model.addAttribute("listModules", listModules);
+        session.setAttribute("userModules", listModules);
+        model.addAttribute("modules", listModules);
+        return "modules";
+    }
+    @GetMapping("/modules/all")
+    public String viewAllModules(Model model, HttpSession session)
+            throws UserNotFoundException, ModuleNotFoundException {
+        @SuppressWarnings("unchecked")
+        long userID = (long) session.getAttribute("CURRENT_USER");
+        if (session.getAttribute("userModules")==null) return "redirect:modules";
+        List<Module> modules = moduleRepository.findAll();
+        model.addAttribute("modules", modules);
         return "modules";
     }
 
-    @RequestMapping("/statistics/{moduleID}")
-    public String viewStatistics(@PathVariable(value = "moduleID") long moduleID, Model model) {
+    @RequestMapping("/statistics/{moduleID}/{moduleName}")
+    public String viewStatistics(@PathVariable(value = "moduleID") long moduleID, @PathVariable(value = "moduleName") String moduleName, Model model) {
         JSONObject data = new JSONObject();
         data.put("female",involvementRepository.countUsersInvolvedBySex(moduleID, 'F') );
         data.put("male", involvementRepository.countUsersInvolvedBySex(moduleID, 'M') );
@@ -58,14 +68,28 @@ public class ModuleController {
         return "modulestatistics";
     }
 
-    @RequestMapping("/drop/{moduleID}")
+    @RequestMapping("/enrol/{moduleID}")
     public String dropModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
+        long userID = (long) session.getAttribute("CURRENT_USER");
+        Module module = moduleRepository.findById(moduleID)
+                .orElseThrow(() -> new ModuleNotFoundException(moduleID));
+        if (module.getIsFinished() == 'N' && module.getMaxStudents() >= 0+involvementRepository.studentsEnrolled(moduleID)) {
+            Involvement involvement = new Involvement(userID, moduleID);
+            involvementRepository.saveAndFlush(involvement);
+        } else {
+            model.addAttribute("errorMessage", "Module is full");
+        }
+        return "redirect:/modules";
+    }
+    @RequestMapping("/drop/{moduleID}")
+    public String enrolModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
         long userID = (long) session.getAttribute("CURRENT_USER");
         Involvement involvement = involvementRepository.findById(new InvolvementID(userID, moduleID))
                 .orElseThrow(() -> new ModuleNotFoundException(moduleID));
         involvementRepository.delete(involvement);
         return "redirect:/modules";
     }
+
 
 
 
