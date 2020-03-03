@@ -95,6 +95,29 @@ public class ModuleController {
         involvementRepository.delete(involvement);
         return "redirect:/modules";
     }
+    @GetMapping("/edit/{moduleID}")
+    public String editModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
+        if (session.getAttribute("staff") == null){
+            return "redirect:/modules";
+        }
+        Module module = moduleRepository.findById(moduleID)
+                .orElseThrow(() -> new ModuleNotFoundException(moduleID));
+        model.addAttribute("module", module);
+        return "editmodule";
+    }
+    @PostMapping("/edit/{moduleID}")
+    public String updateNote( @ModelAttribute("module")  Module module, Model model) throws ModuleNotFoundException {
+        /*Book oldBook = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
+
+        oldBook.setBook_name(book.getBook_name());
+        oldBook.setAuthor_name(book.getAuthor_name());
+        oldBook.setIsbn(book.getIsbn());*/
+
+        moduleRepository.save(module);
+
+        return "redirect:/modules";
+    }
 
 
 

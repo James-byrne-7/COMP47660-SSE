@@ -46,10 +46,6 @@
         <!-- Load d3.js -->
         <script src="https://d3js.org/d3.v4.js"></script>
         <script>
-            d3.select('h2').attr('align',"center");
-            d3.select('h3').style('color', 'darkblue');
-            d3.select('h3').style('font-size', '24px');
-            d3.select('h3').attr('align',"center");
             d3.select("#sex_dataviz").attr("align","center");
 
             // set the dimensions and margins of the graph
@@ -109,14 +105,10 @@
                 .text(function(d){  return d.data.key+ ": "+d.data.value})
                 .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
                 .style("text-anchor", "middle")
-                .style("font-size", 17)
+                .style("font-size", 13)
 
         </script>
         <script>
-            d3.select('h2').attr('align',"center");
-            d3.select('h3').style('color', 'darkblue');
-            d3.select('h3').style('font-size', '24px');
-            d3.select('h3').attr('align',"center");
             d3.select("#nationality_dataviz").attr("align","center");
 
             // set the dimensions and margins of the graph
@@ -172,11 +164,19 @@
                 .selectAll('mySlices')
                 .data(data_ready)
                 .enter()
+
+                .filter(function(d) { return d.endAngle - d.startAngle > .2; })
                 .append('text')
                 .text(function(d){  return d.data.key+ ": "+d.data.value})
-                .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+                .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")rotate(" + angle(d) + ")"; })
                 .style("text-anchor", "middle")
-                .style("font-size", 17)
+                .style("font-size", 13)
+
+            // Computes the angle of an arc, converting from radians to degrees.
+            function angle(d) {
+                var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+                return a > 90 ? a - 180 : a;
+            }
 
         </script>
     </div>

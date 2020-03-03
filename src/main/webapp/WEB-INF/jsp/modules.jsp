@@ -43,19 +43,23 @@
                     <td><c:out value="${module.coordinator_id}" /></td>
                     <td><c:out value="${module.isFinished}" /></td>
                     <td>
-                        <a href="/statistics/${module.id}/${module.name}"/>View Statistics</a>
-                            <c:forEach var="userModule" items="${userModules}">
-                                <c:if test = "${userModule.id == module.id}">
-                                    <c:set var="found" value="1"/>
-
-                                </c:if>
-                            </c:forEach>
-                            <c:if test = "${found == 0}">
-                                <a href="/enrol/${module.id}"  />Enrol Module</a>
+                        <a href="/statistics/${module.id}/${module.name}">View Statistics</a>
+                        <c:forEach var="userModule" items="${userModules}">
+                            <c:if test = "${userModule.id == module.id}">
+                                <c:set var="found" value="1"/>
                             </c:if>
-                            <c:if test = "${found == 1}">
-                                <a href="/drop/${module.id}"  />Drop Module</a>
-                            </c:if>
+                        </c:forEach>
+                        <c:choose>
+                            <c:when test = "${not empty sessionScope.staff}">
+                                <a href="/edit/${module.id}">Edit Module</a>
+                            </c:when>
+                            <c:when test = "${found == 0}">
+                                <a href="/enrol/${module.id}">Enrol Module</a>
+                            </c:when>
+                            <c:when test = "${found == 1}">
+                                <a href="/drop/${module.id}">Drop Module</a>
+                            </c:when>
+                        </c:choose>
                     </td>
                 </tr>
             </c:forEach>

@@ -56,7 +56,8 @@ public class LoginController {
             if (user.getPassword().equals(password)) {
                 request.getSession().setAttribute("CURRENT_USER", userID);
                 request.getSession().setAttribute("username", user.getUsername());
-                request.getSession().setAttribute("staff", "true");
+                if (user.getRole().equalsIgnoreCase("staff")==true)
+                    request.getSession().setAttribute("staff", "true");
                 return "redirect:/home";
             } else {
                 return "redirect:/login?invalid=true";

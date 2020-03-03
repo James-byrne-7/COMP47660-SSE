@@ -13,8 +13,8 @@ public class Module {
     @NotBlank private String name;
     @NotBlank private String topics;
     @NotNull private long coordinator_id;
-    @NotBlank private char isFinished = 'N';
-    @NotBlank private long maxStudents;
+    @NotNull private char isFinished = 'N';
+    @NotNull private long maxStudents;
 
     public Module(){}
     public Module(Long id, String name, String topics, long coordinator_id, char isFinished, long maxStudents){
