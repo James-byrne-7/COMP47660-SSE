@@ -31,7 +31,7 @@ public class ModuleController {
     public String viewUserModules(Model model, HttpSession session)
             throws UserNotFoundException, ModuleNotFoundException {
         @SuppressWarnings("unchecked")
-        long userID = (long) session.getAttribute("CURRENT_USER");
+        Long userID = (Long) session.getAttribute("CURRENT_USER");
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new UserNotFoundException(userID));
         model.addAttribute("user", user);
@@ -51,7 +51,7 @@ public class ModuleController {
     public String viewAllModules(Model model, HttpSession session)
             throws UserNotFoundException, ModuleNotFoundException {
         @SuppressWarnings("unchecked")
-        long userID = (long) session.getAttribute("CURRENT_USER");
+        Long userID = (Long) session.getAttribute("CURRENT_USER");
         if (session.getAttribute("userModules")==null) return "redirect:modules";
         List<Module> modules = moduleRepository.findAll();
         model.addAttribute("modules", modules);
@@ -70,7 +70,7 @@ public class ModuleController {
 
     @RequestMapping("/enrol/{moduleID}")
     public String dropModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
-        long userID = (long) session.getAttribute("CURRENT_USER");
+        Long userID = (Long) session.getAttribute("CURRENT_USER");
         Module module = moduleRepository.findById(moduleID)
                 .orElseThrow(() -> new ModuleNotFoundException(moduleID));
         if (module.getIsFinished() == 'N' && module.getMaxStudents() >= 0+involvementRepository.studentsEnrolled(moduleID)) {
@@ -83,7 +83,7 @@ public class ModuleController {
     }
     @RequestMapping("/drop/{moduleID}")
     public String enrolModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
-        long userID = (long) session.getAttribute("CURRENT_USER");
+        Long userID = (Long) session.getAttribute("CURRENT_USER");
         Involvement involvement = involvementRepository.findById(new InvolvementID(userID, moduleID))
                 .orElseThrow(() -> new ModuleNotFoundException(moduleID));
         involvementRepository.delete(involvement);

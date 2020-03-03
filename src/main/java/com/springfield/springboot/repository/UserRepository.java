@@ -14,7 +14,7 @@ import java.util.Map;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u.id from User u where u.username = ?1")
-    String findStudentIDByUsername(String username);
+    Long findStudentIDByUsername(String username);
 
     @Query("select count(u)  " +
             "from User as u " +

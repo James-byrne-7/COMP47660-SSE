@@ -57,7 +57,7 @@ public class LoginController {
     public String loginUser(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
         request.getSession().invalidate();
         try {
-            long userID = Long.parseLong(userRepository.findStudentIDByUsername(username));
+            Long userID = userRepository.findStudentIDByUsername(username);
             User user = userRepository.findById(userID).get();
             if (user.getPassword().equals(password)) {
                 request.getSession().setAttribute("CURRENT_USER", userID);
@@ -72,8 +72,10 @@ public class LoginController {
     }
 
     @RequestMapping(value="/logout")
-    public String endUserSession(ModelMap model, HttpServletRequest request) {
+    public String endUserSession(@RequestParam(value = "error", required = false) String error, ModelMap model, HttpServletRequest request) {
         request.getSession().invalidate();
+        if (error != null)
+            return "redirect:login?error=true";
         return "redirect:login?logout=true";
     }
 

@@ -3,6 +3,7 @@ package com.springfield.springboot.model;
 import javax.persistence.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ public class User {
     @NotBlank private String password;
     private String firstname;
     private String lastname;
-    @NotBlank private char sex;
+    @NotNull private char sex;
     @NotBlank private String role = "Student"; // Default
     private long fees = 0;
     private String nationality;

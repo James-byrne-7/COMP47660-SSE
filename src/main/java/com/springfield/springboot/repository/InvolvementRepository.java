@@ -23,7 +23,7 @@ public interface InvolvementRepository extends JpaRepository<Involvement, Involv
     public Long countUsersInvolvedBySex(Long moduleID, char sex);
 
     @Query("select count(i) from Involvement i where i.module_id = ?1")
-    public Long studentsEnrolled(long a);
+    public Long studentsEnrolled(Long a);
 
 }
 

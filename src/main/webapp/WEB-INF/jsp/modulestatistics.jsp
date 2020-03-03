@@ -17,8 +17,8 @@
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/modules">Modules</a></li>
-        <li><a href="index.html">Fees</a></li>
-        <li><a href="index.html">Contact us</a></li>
+        <li><a href="/fees">Fees</a></li>
+        <li><a href="/contact">Contact us</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
     <div id="pageContent">

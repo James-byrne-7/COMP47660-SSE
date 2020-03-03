@@ -2,6 +2,7 @@ package com.springfield.springboot.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "involvement")
@@ -10,12 +11,14 @@ import javax.validation.constraints.NotBlank;
 //        query = "select i.user_id from Involvement i where i.module_id = ?1")
 public class Involvement {
     @Id
-    @NotBlank
+    @NotNull
     private Long user_id;
 
     @Id
-    @NotBlank
+    @NotNull
     private Long module_id;
+
+    private char grade;
 
 
     public Involvement(){ }
@@ -36,5 +39,8 @@ public class Involvement {
         return module_id;
     }
     public void setModule_id(Long module_id) { this.module_id = module_id; }
+
+    public char getGrade() {return grade; }
+    public void setGrade(char grade) { this.grade = grade; }
 
 }
