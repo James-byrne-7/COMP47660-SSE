@@ -13,12 +13,12 @@
     <div id="header">
         <p class='title'>Springfield Student Management System</p>
         <p class="current_user">You are currently logged in as : <c:out value="${sessionScope.username}"/></p>
+        <a href="/dropout">Cancel Registration</a>
     </div>
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/modules">Modules</a></li>
         <li><a href="/fees">Fees</a></li>
-        <li><a href="/contact">Contact us</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
     <div id="pageContent">

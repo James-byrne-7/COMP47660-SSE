@@ -22,8 +22,11 @@ public class HomeController {
     @Autowired
     ModuleRepository moduleRepository;
 
-    @RequestMapping(value="/home")
+    @GetMapping(value="/home")
     public String showHomePage(ModelMap model, HttpServletRequest request) throws SQLException {
+        Object userID = request.getSession().getAttribute("CURRENT_USER");
+        if (userID == null)
+            return "redirect:logout?error=true";
         JSONObject sexData = new JSONObject();
         sexData.put("female",userRepository.countUsersBySex('F'));
         sexData.put("male", userRepository.countUsersBySex('M'));
@@ -38,6 +41,7 @@ public class HomeController {
         model.addAttribute("nationalityData", nationalityData);
         return "home";
     }
+
 
 
 

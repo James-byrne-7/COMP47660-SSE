@@ -21,15 +21,10 @@ public class User {
     private String nationality;
 
     public User(){}
-    public User(Long id, String username, String password, String firstname, String lastname, char sex, String role, long fees, String nationality){
-        this.id = id;
+    public User(String username, String password, char sex, String nationality){
         this.username = username;
         this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
         this.sex = sex;
-        this.role = role;
-        this.fees = fees;
         this.nationality = nationality;
     }
 
