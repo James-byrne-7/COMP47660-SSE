@@ -1,14 +1,8 @@
 package com.springfield.springboot.model;
 
-import com.springfield.springboot.exception.UserNotFoundException;
-import com.springfield.springboot.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 @Table(name = "modules")

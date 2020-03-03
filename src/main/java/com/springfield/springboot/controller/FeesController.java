@@ -3,7 +3,6 @@ package com.springfield.springboot.controller;
 import com.springfield.springboot.exception.UserNotFoundException;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.UserRepository;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 
 @Controller
-@SessionAttributes("name")
 public class FeesController {
     @Autowired
     UserRepository userRepository;

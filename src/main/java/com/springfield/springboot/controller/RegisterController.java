@@ -29,8 +29,7 @@ public class RegisterController {
             @RequestParam String name, @RequestParam String password, @RequestParam String surname, @RequestParam String student_id,
             @RequestParam String address, @RequestParam String phone_number, @RequestParam String email_address){
 
-        //boolean areValidDetails = service.validateDetails(name, password, surname, student_id, address, phone_number, email_address);
-        // Validate details
+
         if (!true) {
             return "redirect:login?registered=true";
         }

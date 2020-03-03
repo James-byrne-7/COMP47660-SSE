@@ -1,14 +1,11 @@
 package com.springfield.springboot.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "involvement")
 @IdClass(InvolvementID.class)
-//@NamedQuery(name = "Involvement.findByEmailAddress",
-//        query = "select i.user_id from Involvement i where i.module_id = ?1")
 public class Involvement {
     @Id
     @NotNull

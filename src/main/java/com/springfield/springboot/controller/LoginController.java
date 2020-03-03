@@ -1,25 +1,18 @@
 package com.springfield.springboot.controller;
 
-import com.springfield.springboot.exception.UserNotFoundException;
-import com.springfield.springboot.model.Module;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.ModuleRepository;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.springfield.springboot.repository.UserRepository;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-//import com.springfield.springboot.repository.StaffRepository;
-import com.springfield.springboot.repository.UserRepository;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
-@SessionAttributes("name")
 public class LoginController {
 
     @Autowired

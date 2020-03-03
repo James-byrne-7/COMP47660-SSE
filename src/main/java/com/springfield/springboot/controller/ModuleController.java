@@ -1,26 +1,22 @@
 package com.springfield.springboot.controller;
 
-import com.springfield.springboot.exception.ModuleNotFoundException;
-import com.springfield.springboot.exception.UserNotFoundException;
-import com.springfield.springboot.model.Involvement;
-import com.springfield.springboot.model.InvolvementID;
-import com.springfield.springboot.model.User;
-import com.springfield.springboot.repository.InvolvementRepository;
-import com.springfield.springboot.repository.ModuleRepository;
+import com.springfield.springboot.exception.*;
+import com.springfield.springboot.model.*;
 import com.springfield.springboot.model.Module;
-import com.springfield.springboot.repository.UserRepository;
-import org.json.JSONObject;
+import com.springfield.springboot.repository.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@SessionAttributes("name")
 public class ModuleController {
 
     @Autowired UserRepository userRepository;
