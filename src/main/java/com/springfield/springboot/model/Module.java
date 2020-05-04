@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "modules")
 public class Module {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank private String name;
     @NotBlank private String topics;
