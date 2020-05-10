@@ -15,7 +15,7 @@ public class User {
     @NotBlank private String password;
     private String firstname;
     private String lastname;
-    @NotNull private char sex;
+    @NotNull private Character sex;
     @NotBlank private String role = "Student"; // Default
     private long fees = 0;
     private String nationality;
@@ -40,9 +40,9 @@ public class User {
     }
     public String getFirstname() { return firstname; }
     public String getLastname() { return lastname; }
-    public char getSex() { return sex; }
+    public Character getSex() { return sex; }
     public String getRole() { return role; }
-    public long getFees() { return fees; }
+    public Long getFees() { return fees; }
     public String getNationality() { return nationality; }
 
     public void setId(Long id) { this.id = id; }
@@ -52,11 +52,11 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    public void setSex(char sex) { this.sex = sex; }
+    public void setSex(Character sex) { this.sex = sex; }
     public void setFirstname(String firstname) { this.firstname = firstname; }
     public void setLastname(String lastname) {this.lastname = lastname; }
     public void setRole(String role) { this.role = role; }
-    public void setFees(long fees) { this.fees = fees; }
+    public void setFees(Long fees) { this.fees = fees; }
     public void setNationality(String nationality) { this.nationality = nationality; }
 
 }

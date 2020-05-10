@@ -23,10 +23,19 @@ body {
     background: rgba(0, 0, 0, 0.02);
     padding: 10px 0;    /* adds height to box */
     text-align: center;
+    font-family: Arial,serif;
     font-weight: bold;
+    font-size: 11px;
     outline: none;      /* override default */
     border: 2px solid rgba(0, 0, 0, 0.02);
     margin-top: 25px;   /* space beneath field */
+    display: block;
+}
+label, option {
+    color: rgb(117,117,117);
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
 }
 
 .field:focus {
@@ -39,6 +48,7 @@ body {
     color: #fff;          /* text colour */
     margin-top: 25px;
     outline: none;
+    display: block;
     background: linear-gradient(to right, rgb(150,194,204), rgb(165,210,214));
 }
 
