@@ -1,7 +1,7 @@
 package com.springfield.springboot.model;
 
 import javax.persistence.*;
-
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -11,22 +11,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank private String username;
+    @Column(nullable = false, unique = true) private String username;
     @NotBlank private String password;
     private String firstname;
     private String lastname;
     @NotNull private Character sex;
-    @NotBlank private String role = "Student"; // Default
     private long fees = 0;
     private String nationality;
-
-    public User(){}
-    public User(String username, String password, char sex, String nationality){
-        this.username = username;
-        this.password = password;
-        this.sex = sex;
-        this.nationality = nationality;
-    }
+    @ManyToMany
+    @JoinTable(name="user_roles",
+        joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
 
     // Getters & Setters
     public Long getId() {
@@ -41,7 +38,7 @@ public class User {
     public String getFirstname() { return firstname; }
     public String getLastname() { return lastname; }
     public Character getSex() { return sex; }
-    public String getRole() { return role; }
+    public Set<Role> getRoles() { return roles; }
     public Long getFees() { return fees; }
     public String getNationality() { return nationality; }
 
@@ -55,7 +52,7 @@ public class User {
     public void setSex(Character sex) { this.sex = sex; }
     public void setFirstname(String firstname) { this.firstname = firstname; }
     public void setLastname(String lastname) {this.lastname = lastname; }
-    public void setRole(String role) { this.role = role; }
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
     public void setFees(Long fees) { this.fees = fees; }
     public void setNationality(String nationality) { this.nationality = nationality; }
 
