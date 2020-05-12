@@ -2,6 +2,7 @@ package com.springfield.springboot.validator;
 
 import com.springfield.springboot.repository.UserRepository;
 import com.springfield.springboot.model.User;
+import com.springfield.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 @Component
 public class InputValidator implements Validator {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -24,11 +25,11 @@ public class InputValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         User user = (User) obj;
 
-        if (isUserValid(user.getUsername()))
+        if (!isUserValid(user.getUsername()))
             errors.rejectValue("username", "register.username.invalid");
-        if (userRepository.findStudentIDByUsername(user.getUsername()) == null)
+        if (userService.findByUsername(user.getUsername()) != null)
             errors.rejectValue("username", "register.username.exists");
-        if (isStrong(user.getPassword()))
+        if (!isStrong(user.getPassword()))
             errors.rejectValue("password", "register.password.invalid");
         if (user.getNationality() == null)
             errors.rejectValue("nationality", "register.required");

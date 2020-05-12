@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     ModuleRepository moduleRepository;
 
-    @RequestMapping(value={"/","/login"}, method=RequestMethod.GET)
+    @GetMapping(value="/login")
     public String showLoginPage(@RequestParam(value = "error", required = false) String error,
                                 @RequestParam(value = "registered", required = false) String registered,
                                 @RequestParam(value = "invalid", required = false) String invalid,
@@ -47,25 +47,25 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
-        request.getSession().invalidate();
-        try {
-            Long userID = userRepository.findStudentIDByUsername(username);
-            User user = userRepository.findById(userID).get();
-            if (user.getPassword().equals(password)) {
-                request.getSession().setAttribute("CURRENT_USER", userID);
-                request.getSession().setAttribute("username", user.getUsername());
-                if (user.getRole().equalsIgnoreCase("staff")==true)
-                    request.getSession().setAttribute("staff", "true");
-                return "redirect:/home";
-            } else {
-                return "redirect:/login?invalid=true";
-            }
-        } catch (Exception e) {
-            return "redirect:/login?invalid=true";
-        }
-    }
+//    @PostMapping("/login")
+//    public String loginUser(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
+//        request.getSession().invalidate();
+//        try {
+//            Long userID = userRepository.findStudentIDByUsername(username);
+//            User user = userRepository.findById(userID).get();
+//            if (user.getPassword().equals(password)) {
+//                request.getSession().setAttribute("CURRENT_USER", userID);
+//                request.getSession().setAttribute("username", user.getUsername());
+//                if (user.getRoles().contains("staff"))
+//                    request.getSession().setAttribute("staff", "true");
+//                return "redirect:/home";
+//            } else {
+//                return "redirect:/login?invalid=true";
+//            }
+//        } catch (Exception e) {
+//            return "redirect:/login?invalid=true";
+//        }
+//    }
 
     @RequestMapping(value="/logout")
     public String endUserSession(@RequestParam(value = "error", required = false) String error, ModelMap model, HttpServletRequest request) {
@@ -81,7 +81,4 @@ public class LoginController {
         userRepository.delete(user);
         return "redirect:logout";
     }
-
-
-
 }

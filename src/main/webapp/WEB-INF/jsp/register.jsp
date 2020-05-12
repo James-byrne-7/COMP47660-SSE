@@ -5,7 +5,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="portal.css">
-    <script src="/password_strength.js"></script>
+    <script src="password_strength.js"></script>
     <title>Register: Student Management System</title>
 </head>
 <body>
@@ -29,6 +29,7 @@
         <div class="field">
             <form:radiobutton path="sex" Value="M"/>Male
             <form:radiobutton path="sex" Value="F"/>Female
+            <form:radiobutton path="sex" Value="X" Checked="checked"/>Prefer Not to Say
         </div>
         <form:errors path="sex"></form:errors>
 <%--        <form:input class="field" type="text" placeholder="Student ID" path="student_id" />--%>
@@ -52,7 +53,12 @@
         <input class="submit" type="submit" value="Register">
         <p><a href="/login" class="register">Already Registered?</a></p>
     </form:form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>
+        $(".field").select(function () {
+            alert("1");
+        });
+
         function toggleShowPassword() {
             let x = document.getElementById("password");
             let y = document.getElementById("confirmPassword");
