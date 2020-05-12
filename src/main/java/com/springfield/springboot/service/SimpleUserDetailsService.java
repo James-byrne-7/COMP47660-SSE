@@ -1,6 +1,5 @@
 package com.springfield.springboot.service;
 
-import com.springfield.springboot.model.Role;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class SimpleUserDetailsService implements UserDetailsService{
+public class SimpleUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) throw new UsernameNotFoundException(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+//        for (Role role : user.getRoles()){
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }
