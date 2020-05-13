@@ -32,6 +32,7 @@ li
     text-align: center;
     float: left;
     font-weight: bold;
+    font-size: 15px;
 }
 
 #page
@@ -49,7 +50,7 @@ li
     min-height: 100%;
     background: rgb(135,156,129);
     line-height: 25px;
-    padding: 30px 30;
+    padding: 30px 30px;
 }
 
 .title
@@ -67,11 +68,20 @@ li
     text-align: center;
 }
 
-a /* Override Default */
+a/* Override Default */
 {
     text-decoration: none;
-    font-size: 15px;
 }
-a:hover {
+a:hover, #logout:hover {
     color: #FFF;
+}
+
+#logout {
+    background: none;
+    color: inherit;
+    border: none;
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+    outline: inherit;
 }
