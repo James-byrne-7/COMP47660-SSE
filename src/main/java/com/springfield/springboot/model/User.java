@@ -18,7 +18,6 @@ public class User {
     private String lastName;
     @NotNull
     private Character sex;
-    //    private Long fees = 0;
     private String nationality;
     private String studentId;
     private String address;
