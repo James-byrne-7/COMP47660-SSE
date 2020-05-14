@@ -37,6 +37,8 @@ public class InputValidator implements Validator {
             errors.rejectValue("nationality", "register.required");
         if (user.getSex() == null)
             errors.rejectValue("sex", "register.required");
+        if (userService.findByEmail(user.getEmail()) != null)
+            errors.rejectValue("email", "register.email.exists");
     }
 
 

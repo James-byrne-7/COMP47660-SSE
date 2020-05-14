@@ -22,6 +22,7 @@ public class User {
     private String studentId;
     private String address;
     private String phoneNumber;
+    @Column(unique=true)
     private String email;
     @ManyToMany
     @JoinTable(name="user_roles",
