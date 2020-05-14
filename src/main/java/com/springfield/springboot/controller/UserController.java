@@ -46,7 +46,6 @@ public class UserController {
             return "register";
         }
         userService.save(newUser);
-        securityService.autoLogin(newUser.getUsername(), newUser.getPassword());
 
         return "redirect:/home";
     }

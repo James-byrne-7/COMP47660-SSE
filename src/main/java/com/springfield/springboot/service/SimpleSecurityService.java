@@ -25,8 +25,7 @@ public class SimpleSecurityService implements SecurityService{
             return null;
     }
 
-    @Override
-    public void autoLogin(String username, String password) {
+    public void authenticate(String username, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
@@ -35,8 +34,8 @@ public class SimpleSecurityService implements SecurityService{
         } catch (AuthenticationException e) {
             System.out.println("PROBLEM AUTHENTICATING USER");
         }
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
+//        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
+//            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//        }
     }
 }
