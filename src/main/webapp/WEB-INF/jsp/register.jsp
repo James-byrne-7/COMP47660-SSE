@@ -24,18 +24,22 @@
             <span  id="passwordStrength"></span>
             <span  id="passwordsMatch"></span>
         </div>
-        <form:input class="field" type="text" placeholder="Name" path="firstname" />
-        <form:input class="field" type="text" placeholder="Surname" path="lastname" />
+        <form:input class="field" type="text" placeholder="Name" path="firstName" />
+        <form:input class="field" type="text" placeholder="Surname" path="lastName" />
         <div class="field">
             <form:radiobutton path="sex" Value="M"/>Male
             <form:radiobutton path="sex" Value="F"/>Female
             <form:radiobutton path="sex" Value="X" Checked="checked"/>Prefer Not to Say
         </div>
         <form:errors path="sex"></form:errors>
-<%--        <form:input class="field" type="text" placeholder="Student ID" path="student_id" />--%>
-<%--        <form:input class="field" type="text" placeholder="Address" path="address" />--%>
-<%--        <form:input class="field" type="text" placeholder="Phone No." path="phone_number" />--%>
-<%--        <form:input class="field" type="text" placeholder="Email Address" path="email_address" />--%>
+        <form:input class="field" type="text" placeholder="Student ID" path="studentId" />
+        <form:errors path="studentId"></form:errors>
+        <form:input class="field" type="text" placeholder="Address" path="address" />
+        <form:errors path="address"></form:errors>
+        <form:input class="field" type="text" placeholder="Phone No." path="phoneNumber" />
+        <form:errors path="phoneNumber"></form:errors>
+        <form:input class="field" type="text" placeholder="Email Address" path="email" />
+        <form:errors path="email"></form:errors>
         <form:select class="field" size="5" path="nationality">
             <OPTION selected disabled>Select Your Nationality:</OPTION>
             <OPTION Value="Irish">Irish</OPTION>
@@ -50,25 +54,20 @@
             <OPTION Value="American">American</OPTION>
         </form:select>
         <form:errors path="nationality"></form:errors>
-        <input class="submit" type="submit" value="Register">
-        <p><a href="/login" class="register">Already Registered?</a></p>
+        <input class="submit" type="submit" value="register">
+        <p><a href="${contextPath}/login" class="register">Already Registered?</a></p>
     </form:form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>
-        $(".field").select(function () {
-            alert("1");
-        });
-
         function toggleShowPassword() {
             let x = document.getElementById("password");
             let y = document.getElementById("confirmPassword");
-                if (x.type === "password" && y.type === "password") {
-                    x.type = "text";
-                    y.type = "text";
-                } else {
-                    x.type = "password";
-                    y.type = "password";
-                }
+            if (x.type === "password" && y.type === "password") {
+                x.type = "text";
+                y.type = "text";
+            } else {
+                x.type = "password";
+                y.type = "password";
+            }
         }
         function checkPasswordMatches() {
             let x = document.getElementById("password");

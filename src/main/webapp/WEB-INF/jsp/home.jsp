@@ -12,13 +12,18 @@
     <div id="header">
         <p class='title'>Springfield Student Management System</p>
         <p class="current_user">You are currently logged in as : <c:out value="${sessionScope.username}"/></p>
-        <a href="/dropout">Cancel Registration</a>
+        <a href="${contextPath}/dropout">Cancel Registration</a>
     </div>
     <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/modules">Modules</a></li>
-        <li><a href="/fees">Fees</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="${contextPath}/">Home</a></li>
+        <li><a href="${contextPath}/modules">Modules</a></li>
+        <li><a href="${contextPath}/fees">Fees</a></li>
+        <li>
+            <form method="post" action="logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input id="logout" type="submit" value="Logout">
+            </form>
+        </li>
     </ul>
     <div id="pageContent">
         <p class="title">Welcome</p>
