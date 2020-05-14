@@ -37,8 +37,10 @@ public class InputValidator implements Validator {
             errors.rejectValue("sex", "register.required");
     }
 
-    private boolean isUserValid(String username){
-        return username.matches("^(\\w{1,32}$)");
+
+    public void validatePassword(String password, Errors errors){
+        if (doesNotMeet(password, PASSWORD_REQUIREMENTS))
+            errors.rejectValue("password", "register.password.invalid");
     }
 
     private static boolean isStrong(String password){
