@@ -1,5 +1,6 @@
 package com.springfield.springboot.service;
 
+import com.springfield.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,20 +10,32 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+
 @Service
 public class SimpleSecurityService implements SecurityService{
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
+
+//    @Override
+//    public String getLoggedInUsername() {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getDetails();
+//        if (principal instanceof UserDetails)
+//            return ((UserDetails)principal).getUsername();
+//        else
+//            return null;
+//    }
 
     @Override
-    public String findLoggedInUsername() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if (userDetails instanceof UserDetails)
-            return ((UserDetails)userDetails).getUsername();
-        else
-            return null;
+    public User getLoggedInUser(Principal principal){
+        User user = userService.findByUsername(principal.getName());
+        if (user == null)
+            System.out.println("USER NOT FOUND!!!!!!!!!!");
+        return user;
     }
 
     public void authenticate(String username, String password) {
@@ -34,8 +47,5 @@ public class SimpleSecurityService implements SecurityService{
         } catch (AuthenticationException e) {
             System.out.println("PROBLEM AUTHENTICATING USER");
         }
-//        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-//            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//        }
     }
 }
