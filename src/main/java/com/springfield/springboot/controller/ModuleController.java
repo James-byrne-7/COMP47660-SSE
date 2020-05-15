@@ -1,120 +1,80 @@
 package com.springfield.springboot.controller;
 
-import com.springfield.springboot.exception.*;
+//import com.springfield.springboot.exception.*;
 import com.springfield.springboot.model.*;
 import com.springfield.springboot.model.Module;
-import com.springfield.springboot.repository.*;
 
+import com.springfield.springboot.service.ModuleService;
+import com.springfield.springboot.service.SecurityService;
+import com.springfield.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ModuleController {
 
-    @Autowired UserRepository userRepository;
-    @Autowired ModuleRepository moduleRepository;
-    @Autowired InvolvementRepository involvementRepository;
+    @Autowired
+    ModuleService moduleService;
+    @Autowired SecurityService securityService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/modules")
-    public String viewUserModules(Model model, HttpSession session)
-            throws UserNotFoundException, ModuleNotFoundException {
-        Long userID = (Long) session.getAttribute("CURRENT_USER");
-        if (userID == null)
-            return "redirect:logout?error=true";
-
-        User user = userRepository.findById(userID)
-                .orElseThrow(() -> new UserNotFoundException(userID));
-        model.addAttribute("user", user);
-
-        List<Long> module_ids = involvementRepository.findModuleByUserId(user.getId());
-        List<Module> listModules = new ArrayList<Module>();
-        for(Long module_id: module_ids){
-            Module module = moduleRepository.findById(module_id)
-                    .orElseThrow(() -> new ModuleNotFoundException(module_id));
-            listModules.add(module);
-        }
-        session.setAttribute("userModules", listModules);
-        model.addAttribute("modules", listModules);
+    public String viewUserModules(Principal principal, Model model) {
+        User user = userService.findByUsername(principal.getName());
+        Set<Module> modules = user.getModules();
+        model.addAttribute("modules", user.getModules());
+        model.addAttribute("selectedModule", new Module());
         return "modules";
     }
+
     @GetMapping("/modules/all")
-    public String viewAllModules(Model model, HttpSession session)
-            throws UserNotFoundException, ModuleNotFoundException {
-        Long userID = (Long) session.getAttribute("CURRENT_USER");
-        if (userID == null)
-            return "redirect:logout?error=true";
-        if (session.getAttribute("userModules")==null) return "redirect:modules";
-        List<Module> modules = moduleRepository.findAll();
+    public String viewAllModules(Model model){
+        List<Module> modules = moduleService.getModules();
         model.addAttribute("modules", modules);
+        model.addAttribute("selectedModule", new Module());
         return "modules";
     }
 
-    @RequestMapping("/statistics/{moduleID}/{moduleName}")
-    public String viewStatistics(@PathVariable(value = "moduleID") long moduleID, @PathVariable(value = "moduleName") String moduleName, Model model, HttpSession session) {
-        Long userID = (Long) session.getAttribute("CURRENT_USER");
-        if (userID == null)
-            return "redirect:logout?error=true";
-        JSONObject data = new JSONObject();
-        data.put("female",involvementRepository.countUsersInvolvedBySex(moduleID, 'F') );
-        data.put("male", involvementRepository.countUsersInvolvedBySex(moduleID, 'M') );
-        model.addAttribute("data", data);
-
+    @RequestMapping("/modules/statistics/")
+    public String viewStatistics(@ModelAttribute("selectedModule") Module module, Model model , BindingResult bindingResult) {
+        module = moduleService.findModule(module.getCode());
+        model.addAttribute("data", moduleService.getSexBreakdown(module));
         return "modulestatistics";
     }
 
-    @RequestMapping("/enrol/{moduleID}")
-    public String dropModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
-        Long userID = (Long) session.getAttribute("CURRENT_USER");
-        if (userID == null)
-            return "redirect:logout?error=true";
-        Module module = moduleRepository.findById(moduleID)
-                .orElseThrow(() -> new ModuleNotFoundException(moduleID));
-        if (module.getIsFinished() == 'N' && module.getMaxStudents() >= 0+involvementRepository.studentsEnrolled(moduleID)) {
-            Involvement involvement = new Involvement(userID, moduleID);
-            involvementRepository.saveAndFlush(involvement);
-        } else {
-            model.addAttribute("errorMessage", "Module is full");
+    @PostMapping("/modules/enrol")
+    public String enrolModule(@ModelAttribute("selectedModule") Module module, Principal principal,  Model model, BindingResult bindingResult) {
+        module = moduleService.findModule(module.getCode());
+        if (moduleService.isOpenForEnrolment(module)) {
+            moduleService.addParticipant(module, securityService.getLoggedInUser(principal));
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         }
         return "redirect:/modules";
     }
-    @RequestMapping("/drop/{moduleID}")
-    public String enrolModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
-        Long userID = (Long) session.getAttribute("CURRENT_USER");
-        if (userID == null)
-            return "redirect:logout?error=true";
-        Involvement involvement = involvementRepository.findById(new InvolvementID(userID, moduleID))
-                .orElseThrow(() -> new ModuleNotFoundException(moduleID));
-        involvementRepository.delete(involvement);
+    @RequestMapping("/modules/drop")
+    public String dropModule(@ModelAttribute("selectedModule") Module module, Model model, Principal principal, BindingResult bindingResult) {
+        User user = securityService.getLoggedInUser(principal);
+        module = moduleService.findModule(module.getCode());
+        moduleService.removeParticipant(module, user);
         return "redirect:/modules";
     }
-    @GetMapping("/edit/{moduleID}")
-    public String editModule(@PathVariable(value = "moduleID") Long moduleID, Model model, HttpSession session) throws UserNotFoundException, ModuleNotFoundException {
-        if (session.getAttribute("staff") == null){
-            return "redirect:/modules";
-        }
-        Module module = moduleRepository.findById(moduleID)
-                .orElseThrow(() -> new ModuleNotFoundException(moduleID));
+    @GetMapping("/modules/edit")
+    public String editModule(@ModelAttribute("selectedModule") Module module, Model model, BindingResult bindingResult) {
         model.addAttribute("module", module);
         return "editmodule";
     }
-    @PostMapping("/edit/{moduleID}")
-    public String updateNote( @ModelAttribute("module")  Module module, Model model) throws ModuleNotFoundException {
-        /*Book oldBook = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(bookId));
-
-        oldBook.setBook_name(book.getBook_name());
-        oldBook.setAuthor_name(book.getAuthor_name());
-        oldBook.setIsbn(book.getIsbn());*/
-
-        moduleRepository.save(module);
+    @PostMapping("/modules/edit")
+    public String updateModule(@ModelAttribute("selectedModule") Module module, Model model, BindingResult bindingResult) {
+        moduleService.save(module);
 
         return "redirect:/modules";
     }

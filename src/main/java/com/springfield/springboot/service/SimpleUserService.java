@@ -1,14 +1,15 @@
 package com.springfield.springboot.service;
 
-
 import com.springfield.springboot.model.ResetToken;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.repository.ResetTokenRepository;
 import com.springfield.springboot.repository.UserRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Date;
+
+import java.util.*;
 
 @Service
 public class SimpleUserService implements UserService {
@@ -72,10 +73,32 @@ public class SimpleUserService implements UserService {
         long milliseconds1 = createdDate.getTime();
         long milliseconds2 = now.getTime();
         long diffMinutes = (milliseconds2 - milliseconds1)/ (60 * 1000);
-        if(diffMinutes <= 20 ) return false;
-
-
-        return true;
+        return diffMinutes > 20;
     }
+    @Override
+    public JSONObject getSexBreakdown(List<User> users) {
+        int M = 0, F = 0, U = 0;
+        for (User u : users)
+            if (u.getSex().equals('M')) M++;
+            else if (u.getSex().equals('F')) F++;
+            else U++;
+        JSONObject data = new JSONObject();
+        data.put("female", F);
+        data.put("male", M);
 
+        return data;
+    }
+    public JSONObject getNationalityBreakdown(List<User> users) {
+        JSONObject nationalityData = new JSONObject();
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        for (User user : users) {
+            String nationality = user.getNationality();
+            Integer count = map.get(nationality);
+            map.put(nationality, (count == null) ? 1 : count + 1);
+        }
+        for (String nationality : map.keySet())
+            nationalityData.put(nationality, map.get(nationality));
+        return nationalityData;
+    }
+    public List<User> getUsers() { return userRepository.findAll(); }
 }

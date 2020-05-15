@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="true" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
 <head>
     <title>Springfield Student Management System</title>
@@ -11,55 +12,52 @@
 <div id="page">
     <div id="header">
         <p class='title'>Springfield Student Management System</p>
-        <p class="current_user">You are currently logged in as : <c:out value="${sessionScope.username}"/></p>
+        <p class="current_user">You are currently logged in as : ${pageContext.request.userPrincipal.name}</p>
         <a href="/dropout">Cancel Registration</a>
     </div>
     <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/modules">Modules</a></li>
-        <li><a href="/fees">Fees</a></li>
-        <li><a href="logout">Logout</a></li>
+        <li><a href="${contextPath}/">Home</a></li>
+        <li><a href="${contextPath}/modules">Modules</a></li>
+        <li><a href="${contextPath}/fees">Fees</a></li>
+        <li>
+            <form method="post" action="logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input id="logout" type="submit" value="Logout">
+            </form>
+        </li>
     </ul>
     <div id="pageContent">
         <p class="title">Currently Enrolled Modules</p>
-        <c:if test="${not empty errorMessage}"><p style="color:red; font-weight: bold;">${errorMessage}</p></c:if>
-        <br/>
         <table border="1" cellpadding="8">
             <tr>
-                <th>ID</th>
+                <th>Code</th>
                 <th>Module Title</th>
                 <th>Topics Covered</th>
-                <th>Coordinator_ID</th>
-                <th>Finished</th>
+<%--                <th>Coordinator_ID</th>--%>
+<%--                <th>Finished</th>--%>
 <%--                <th>Grade</th>--%>
                 <th>Actions</th>
             </tr>
             <c:forEach var="module" items="${modules}">
-                <c:set var="found" value="0"/>
+<%--                <c:set var="found" value="0"/>--%>
                 <tr>
-                    <td><c:out value="${module.id}" /></td>
+                    <td><c:out value="${module.code}" /></td>
                     <td><c:out value="${module.name}" /></td>
-                    <td><c:out value="${module.topics}" /></td>
-                    <td><c:out value="${module.coordinator_id}" /></td>
-                    <td><c:out value="${module.isFinished}" /></td>
+                    <td><c:out value="${module.description}" /></td>
                     <td>
-                        <a href="/statistics/${module.id}/${module.name}">View Statistics</a>
-                        <c:forEach var="userModule" items="${userModules}">
-                            <c:if test = "${userModule.id == module.id}">
-                                <c:set var="found" value="1"/>
-                            </c:if>
-                        </c:forEach>
-                        <c:choose>
-                            <c:when test = "${not empty sessionScope.staff}">
-                                <a href="/edit/${module.id}">Edit Module</a>
-                            </c:when>
-                            <c:when test = "${found == 0}">
-                                <a href="/enrol/${module.id}">Enrol Module</a>
-                            </c:when>
-                            <c:when test = "${found == 1}">
-                                <a href="/drop/${module.id}">Drop Module</a>
-                            </c:when>
-                        </c:choose>
+                        <form:form method="post" action="statistics" modelAttribute="selectedModule">
+                            <form:input path="code" type="hidden" value="${module.code}"/>
+                            <input class="edit" type="submit" value="Statistics">
+                        </form:form>
+                        <a class="edit" href="/edit/${module.id}">Edit Module</a>
+                        <form:form method="post" action="enrol" modelAttribute="selectedModule">
+                            <form:input path="code" type="hidden" value="${module.code}"/>
+                            <input class="edit" type="submit" value="Enrol">
+                        </form:form>
+                        <form:form method="post" action="drop" modelAttribute="selectedModule">
+                            <form:input path="code" type="hidden" value="${module.code}"/>
+                            <input class="edit" type="submit" value="Drop">
+                        </form:form>
                     </td>
                 </tr>
             </c:forEach>
