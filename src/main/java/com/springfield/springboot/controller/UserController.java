@@ -1,6 +1,5 @@
 package com.springfield.springboot.controller;
 
-
 import com.springfield.springboot.model.ResetToken;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.service.EmailService;
@@ -27,19 +26,21 @@ public class UserController {
     @Autowired
     private InputValidator inputValidator;
 
-    @RequestMapping({"/", "/welcome", "/home"})
+    @GetMapping({"/", "/welcome", "/home"})
     public String landingPage(Model model) {
+        model.addAttribute("sexData", userService.getSexBreakdown(userService.getUsers()));
+        model.addAttribute("nationalityData", userService.getNationalityBreakdown(userService.getUsers()));
         return "home";
     }
 
     @GetMapping(value="/register")
-    public String showRegisterPage(/*@RequestParam(value = "error", required = false) String error,*/ ModelMap model, HttpSession session){
+    public String showRegisterPage(/*@RequestParam(value = "error", required = false) String error,*/ ModelMap model){
         model.addAttribute("newUser", new User());
         return "register";
     }
 
     @PostMapping("/register")
-    public String registration(@ModelAttribute("newUser") User newUser, BindingResult bindingResult, HttpSession session) {
+    public String registration(@ModelAttribute("newUser") User newUser, BindingResult bindingResult) {
         inputValidator.validate(newUser, bindingResult);
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors().get(0).toString());

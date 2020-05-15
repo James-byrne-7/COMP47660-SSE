@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="true" %>
+
 <html>
 <head>
     <title>Springfield Student Management System</title>
@@ -11,7 +11,7 @@
 <div id="page">
     <div id="header">
         <p class='title'>Springfield Student Management System</p>
-        <p class="current_user">You are currently logged in as : <c:out value="${sessionScope.username}"/></p>
+        <p class="current_user">You are currently logged in as : ${pageContext.request.userPrincipal.name}</p>
         <a href="${contextPath}/dropout">Cancel Registration</a>
     </div>
     <ul>
