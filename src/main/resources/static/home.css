@@ -72,11 +72,11 @@ a/* Override Default */
 {
     text-decoration: none;
 }
-a:hover, #logout:hover {
+a:hover, #logout:hover, .edit::hover {
     color: #FFF;
 }
 
-#logout {
+#logout, .edit {
     background: none;
     color: inherit;
     border: none;
