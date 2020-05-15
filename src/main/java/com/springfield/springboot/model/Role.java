@@ -12,6 +12,8 @@ public class Role {
     private String name;
     @ManyToMany(mappedBy = "roles", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<User> users;
+    @OneToOne(mappedBy = "coordinator", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    private Module module;
 
     public Long getId() {
         return id;
@@ -22,6 +24,7 @@ public class Role {
     public Set<User> getUsers() {
         return users;
     }
+    public Module getModule() { return module; }
 
     public void setId(Long id) {
         this.id = id;
@@ -31,5 +34,8 @@ public class Role {
     }
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+    public void setModule(Module module) {
+        this.module = module;
     }
 }

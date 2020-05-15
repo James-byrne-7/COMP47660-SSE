@@ -3,6 +3,7 @@ package com.springfield.springboot.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,12 +25,25 @@ public class User {
     private String phoneNumber;
     @Column(unique=true)
     private String email;
+    private Long feeBalance;
     @ManyToMany
     @JoinTable(name="user_roles",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName="id")
     )
     private Set<Role> roles;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="user_modules",
+            joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="module_id", referencedColumnName="id")
+    )
+    private Set<Module> modules;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name="user_transactions",
+            joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="transaction_id", referencedColumnName="id")
+    )
+    private List<Transaction> transactions;
 
     // Getters & Setters
     public Long getId() {
@@ -60,6 +74,9 @@ public class User {
     public Set<Role> getRoles() {
         return roles;
     }
+    public Long getFeeBalance() { return feeBalance; }
+    public Set<Module> getModules() { return modules; }
+    public List<Transaction> getTransactions() { return transactions; }
 
     public void setId(Long id) { this.id = id; }
     public void setPassword(String password) {
@@ -87,4 +104,7 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+    public void setFeeBalance(Long feeBalance) { this.feeBalance = feeBalance; }
+    public void setModules(Set<Module> modules) {this.modules = modules; }
+    public void setTransactions(List<Transaction> transactions) { this.transactions = transactions; }
 }

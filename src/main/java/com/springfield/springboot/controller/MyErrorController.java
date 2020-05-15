@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 public class MyErrorController implements ErrorController {
     @RequestMapping(value="/error")
     public String showLoginPage(ModelMap model, HttpSession session){
-        return "redirect:/logout?error=true";
+        return "redirect:/login?error=true";
     }
 
     @Override
