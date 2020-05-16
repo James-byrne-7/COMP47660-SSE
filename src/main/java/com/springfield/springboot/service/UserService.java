@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserService {
     void save(User user);
+    void delete(User user);
     User findByUsername(String username);
     User findByEmail(String email);
     void save(ResetToken token);

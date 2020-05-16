@@ -1,7 +1,10 @@
 package com.springfield.springboot.validator;
 
+import com.springfield.springboot.controller.UserController;
 import com.springfield.springboot.model.User;
 import com.springfield.springboot.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -17,6 +20,8 @@ public class InputValidator implements Validator {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(InputValidator.class);
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -43,8 +48,13 @@ public class InputValidator implements Validator {
 
 
     public void validatePassword(String password, Errors errors){
-        if (doesNotMeet(password, PASSWORD_REQUIREMENTS))
+        logger.debug("VALIDATING PASSWORD MEETS REQUIREMENTS");
+        if (doesNotMeet(password, PASSWORD_REQUIREMENTS)) {
+            logger.debug("REQUIREMENTS MET");
             errors.rejectValue("password", "register.password.invalid");
+        } else {
+            logger.debug("INVALID PASSWORD");
+        }
     }
     private boolean doesNotMeet(String input, String requirements) {
         Pattern pattern = Pattern.compile(requirements);

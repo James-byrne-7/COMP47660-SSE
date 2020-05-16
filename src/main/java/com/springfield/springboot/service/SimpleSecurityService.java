@@ -1,6 +1,9 @@
 package com.springfield.springboot.service;
 
+import com.springfield.springboot.controller.UserController;
 import com.springfield.springboot.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,31 +24,22 @@ public class SimpleSecurityService implements SecurityService{
     @Autowired
     private UserService userService;
 
-//    @Override
-//    public String getLoggedInUsername() {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getDetails();
-//        if (principal instanceof UserDetails)
-//            return ((UserDetails)principal).getUsername();
-//        else
-//            return null;
-//    }
+    private static final Logger logger = LoggerFactory.getLogger(SimpleSecurityService.class);
 
     @Override
     public User getLoggedInUser(Principal principal){
         User user = userService.findByUsername(principal.getName());
         if (user == null)
-            System.out.println("USER NOT FOUND!!!!!!!!!!");
+            logger.error("UNABLE TO RETRIEVE LOGGED IN USER");
         return user;
     }
 
     public void authenticate(String username, String password) {
+        logger.info(String.format("AUTHENTICATING USER: %s", username));
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
+        logger.info("GENERATING AUTHENTICATION TOKEN");
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        try {
-            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        } catch (AuthenticationException e) {
-            System.out.println("PROBLEM AUTHENTICATING USER");
-        }
+        logger.info("AUTHENTICATING TOKEN");
+        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
     }
 }

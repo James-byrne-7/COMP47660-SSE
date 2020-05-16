@@ -7,6 +7,8 @@ import com.springfield.springboot.model.Module;
 import com.springfield.springboot.service.ModuleService;
 import com.springfield.springboot.service.SecurityService;
 import com.springfield.springboot.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +28,12 @@ public class ModuleController {
     @Autowired
     UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(ModuleController.class);
+
     @GetMapping("/modules")
     public String viewUserModules(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
+        logger.debug("RETRIEVING USER'S MODULES");
         Set<Module> modules = user.getModules();
         model.addAttribute("modules", user.getModules());
         model.addAttribute("selectedModule", new Module());
@@ -52,18 +57,20 @@ public class ModuleController {
 
     @PostMapping("/modules/enrol")
     public String enrolModule(@ModelAttribute("selectedModule") Module module, Principal principal,  Model model, BindingResult bindingResult) {
+        logger.debug("ENROLLING STUDENT");
         module = moduleService.findModule(module.getCode());
         if (moduleService.isOpenForEnrolment(module)) {
+            logger.debug("UPDATING DATABASE");
             moduleService.addParticipant(module, securityService.getLoggedInUser(principal));
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
         }
         return "redirect:/modules";
     }
     @RequestMapping("/modules/drop")
     public String dropModule(@ModelAttribute("selectedModule") Module module, Model model, Principal principal, BindingResult bindingResult) {
+        logger.debug("UNENROLLING STUDENT");
         User user = securityService.getLoggedInUser(principal);
         module = moduleService.findModule(module.getCode());
+        logger.debug("UPDATING DATABASE");
         moduleService.removeParticipant(module, user);
         return "redirect:/modules";
     }
@@ -74,8 +81,8 @@ public class ModuleController {
     }
     @PostMapping("/modules/edit")
     public String updateModule(@ModelAttribute("selectedModule") Module module, Model model, BindingResult bindingResult) {
+        logger.debug("UPDATING MODULE IN DATABASE");
         moduleService.save(module);
-
         return "redirect:/modules";
     }
 
