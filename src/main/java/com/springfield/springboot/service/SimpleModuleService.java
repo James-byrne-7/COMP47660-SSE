@@ -53,6 +53,8 @@ public class SimpleModuleService implements ModuleService {
 
     @Override
     public boolean isOpenForEnrolment(Module module) {
+        if (module == null)
+            return false;
         Date now = new Date();
         long current_time = now.getTime();
         long completion_time = module.getCompletionDate().getTime();
@@ -62,7 +64,10 @@ public class SimpleModuleService implements ModuleService {
         if (closed) logger.debug("MODULE COMPLETION DATE PASSED");
         boolean full = (module.getCapacity() <= module.getParticipants().size());
         if (full) logger.debug("MODULE ALREADY FULL");
-        return !(full || closed);
+
+        boolean open = !(full || closed);
+        if (open) logger.info("OPEN FOR ENROL");
+        return open;
     }
 
     @Override

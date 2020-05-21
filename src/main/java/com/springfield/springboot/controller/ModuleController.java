@@ -59,6 +59,7 @@ public class ModuleController {
     public String enrolModule(@ModelAttribute("selectedModule") Module module, Principal principal,  Model model, BindingResult bindingResult) {
         logger.debug("ENROLLING STUDENT");
         module = moduleService.findModule(module.getCode());
+        if (module == null) logger.error("NULL MODULE");
         if (moduleService.isOpenForEnrolment(module)) {
             logger.debug("UPDATING DATABASE");
             moduleService.addParticipant(module, securityService.getLoggedInUser(principal));
@@ -76,6 +77,7 @@ public class ModuleController {
     }
     @GetMapping("/modules/edit")
     public String editModule(@ModelAttribute("selectedModule") Module module, Model model, BindingResult bindingResult) {
+        logger.debug("SOMEONE ATTEMPTING TO EDIT PAGE: " + module.getCode());
         model.addAttribute("module", module);
         return "editmodule";
     }

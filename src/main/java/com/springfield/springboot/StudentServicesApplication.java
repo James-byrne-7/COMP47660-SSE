@@ -1,5 +1,6 @@
 package com.springfield.springboot;
 
+import com.springfield.springboot.service.AuthenticationSuccessListener;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -8,8 +9,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;;import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class StudentServicesApplication{
@@ -39,6 +42,10 @@ public class StudentServicesApplication{
         return tomcat;
     }
 
+    @Bean
+    public ApplicationListener applicationListener(){
+        return new AuthenticationSuccessListener();
+    }
     private Connector redirectConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
